@@ -1,0 +1,59 @@
+body{
+    height: 800px;
+    width: 1024px;
+}
+
+ div{
+       background-color: antiquewhite;
+       float: right;
+        height: 500PX;
+        width: 260px;
+        margin-top: 0px;
+       margin-left: 0px;
+     
+         
+     }    
+
+
+h1{
+    background-color: darkseagreen;
+    height:50px;
+    margin-bottom: 0px;
+    margin-top: 1px;
+    text-align:justify;
+   
+    
+}
+.guy{
+    position: absolute;
+    top:220px;
+    left: 260px;
+    height:0px;
+    backface-visibility: hidden;
+}
+img{
+    margin-bottom: 0px;
+    
+}
+h2,p{
+    text-align: center;
+    
+}
+    
+button{
+    margin-top: 10px;
+    margin: 10px;
+    margin-left: 80px;
+        
+  }
+
+
+footer{
+    background-color:darkkhaki;
+    font-weight: bold;
+    height: 40px;
+    width: auto;
+    text-align: center;
+    margin-top: 0px;
+    
+}
