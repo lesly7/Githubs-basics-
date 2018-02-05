@@ -1,0 +1,63 @@
+ body{
+     background: pink;
+
+        }
+        
+        
+        .maindiv{
+            width: 600px;
+            height: 300px;
+            margin: 20px auto;
+            background-color: yellow;
+            position: relative;
+            border-style: solid;
+            
+            
+      }
+        
+        .one{
+/*            float: left;*/
+            text-align: center;
+            padding: 12px;
+         
+           
+          } 
+
+
+
+        #outbox{
+            position: relative;
+            margin-left: 30%;
+            border-style: solid;
+            border-color: black;
+            height: 100px;
+            width: 200px;
+            
+         
+}
+        .box{
+    display: flex;
+}
+
+        h1{
+            font-size: 19pt;
+            text-align: center;
+            font-style: italic;
+          
+            
+            
+            
+        }
+       
+           
+            
+        }
+        .btn2{
+            position: relative;
+            margin-left: 40px;
+            padding: 150px;
+        }
+        
+    
+    
+    

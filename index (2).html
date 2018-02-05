@@ -1,0 +1,82 @@
+<!Doctype HTML>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Color Game</title>
+    <link rel="stylesheet" href="game.css" />
+    
+    
+    </head>    
+<body>
+    
+    <div class="maindiv">
+        <h1>Select a color from 0 to 255 for each color value</h1>
+        
+        <div class="box">
+            <div class="one">Red <br><input type="number" id="red" value=255></div>
+            <br>
+            <div class="one">Green <br><input type="number" id="green" value=255></div>
+            <br>
+            <div class="one">Blue <br><input type="number" id="blue" value=255></div>
+        </div>
+        
+        <br>
+
+        <div class="ipt" id="outbox"></div>
+        
+        <div class="btn2">
+        <button type="button" id="btn" >Show me color!</button>
+        <button id="btn2">Clear all</button>
+        </div>
+    </div>    
+   
+    
+    
+    <script>
+        let btn =document.getElementById("btn");
+        let btn2=document.getElementById("btn2");
+        let colorRed=document.getElementById("red");
+        let colorGreen=document.getElementById("green");
+        let colorBlue=document.getElementById("blue");
+        let box=document.getElementById("outbox");
+
+//        Function to convert RGB to HEX from Stackoverflow: https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+        
+    function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+    }
+
+    function rgbToHex(r, g, b) {
+        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    }
+        
+    function myclick(){
+
+        box.style.backgroundColor="rgb("+ parseInt(colorRed.value) + ","+ parseInt(colorGreen.value) +","+ parseInt(colorBlue.value) +")";
+        
+//        box.textContent = rgbToHex(parseInt(colorRed.value),parseInt(colorGreen.value),parseInt(colorBlue.value));
+        box.textContent = "Test";
+
+    }
+        
+  
+    btn.onclick=myclick;
+            
+        
+    
+    
+    
+    
+    
+    </script>
+    
+    
+    
+    
+</body>    
+    
+    
+    
+</html>
+
