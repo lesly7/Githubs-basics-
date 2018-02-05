@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Untitled Document</title>
+</head>
+
+<body>
+
+<div id="output">
+
+</div> 
+
+<script>
+var planetNames = ["Jupiter", "Venus", "Saturn", "Mars","zimba"];
+var distancesFromEarth = [5.2, 0.72, 9.5, 1.5,7.1];
+var sunnyInAugust = [false, true, false, true,false];
+var output= document.querySelector("#output");
+var msg="This planets are sunny in Agust ";
+    
+
+for(var i = 0; i < planetNames.length; i++){
+    
+    output.innerHTML+="<br>"+planetNames[i]+"<br>"+distancesFromEarth[i]+"<br>"+sunnyInAugust[i]+"<br>";
+    if(sunnyInAugust[i]){
+        output.innerHTML+="<br>"+msg+"<b>"+"<br>"+planetNames[i]+"<b>"+"<br>";
+    }                
+  
+}
+
+</script>
+
+</body>
+</html>
