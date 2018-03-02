@@ -1,0 +1,106 @@
+
+.maindiv{
+  width: 700px;    
+  height: 600px;
+  margin-left: 20%;
+  background-color: gray;
+  position:absolute;
+  background-image: url(images/jeremy-stenuit-531778.jpg);
+      
+}
+
+
+*{
+  font-family:cursive;
+  color: white;  
+  font-size: 16px;
+  padding: 0px;
+  margin: 0px;
+}
+
+@font-face {
+  font-family: 'Indie Flower', cursive;
+    @import src:url('https://fonts.googleapis.com/css?family=Indie+Flower');
+}
+
+@font-face {
+  font-family: cursive;
+  /*src: url("../fonts/Merriweather-Bold.ttf");*/
+}
+
+@font-face 
+{
+  font-family:cursive;
+  src: url("../fonts/Ginga.ttf");
+}
+
+h1
+{
+  text-align: center;
+  font-family: Ginga;
+  font-size: 70px;
+  padding-bottom: 10px;
+  padding-top: 80px;
+  font-weight: normal;
+}
+em{
+  font-size: 14px;
+}
+p{
+  width: 300px;
+  margin: 0px auto;
+}
+
+img{
+  margin: 0px auto;
+  display: block;
+  margin-bottom: 20px;
+}
+
+input{
+  position: absolute;
+  bottom: 30px;
+  left: 235px;
+  width: 160px;
+  padding: 2px 2px 2px 5px;
+  border: 1px solid black;
+  background-color: rgba(255,255,255,0.3);
+  -webkit-box-shadow: 5px 5px 3px rgba(0,0,0,0.5);
+	-moz-box-shadow: 5px 5px 3px rgba(0,0,0,0.5);
+	box-shadow: 3px 3px 5px rgba(0,0,0,0.4);
+}
+
+button
+{
+  position: absolute;
+  bottom: 30px;
+  left: 410px;
+  height: 25px;
+  width: 50px;
+  
+  font-family:cursive;
+	font-size: 14px;
+	color: white;
+	border: 1px solid #000;
+	
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;	
+	
+	background:-webkit-linear-gradient(top, rgba(255,255,255,0.6), rgba(0,0,0,0.2));
+	background:-moz-linear-gradient(top, #a3a3a3, rgba(0,0,0,0.2));
+	background: linear-gradient(top, #a3a3a3, rgba(0,0,0,0.2));
+	
+	-webkit-box-shadow: 5px 5px 3px rgba(0,0,0,0.5);
+	-moz-box-shadow: 5px 5px 3px rgba(0,0,0,0.5);
+	box-shadow: 3px 3px 5px rgba(0,0,0,0.4);
+	
+	-webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+
+
+
+

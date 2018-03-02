@@ -30,7 +30,7 @@ map[4] = " A mysterious boat";
 map[5] = " Redy to have a picnic";
 map[6] = " A scary Forest";
 map[7] = " A storm starting";
-map[8] = "";
+map[8] = "A calm three";
 
 var mapLocation = 4;
 
@@ -44,7 +44,7 @@ images[4] = "boat.jpg";
 images[5] = "picnic.jpg";
 images[6] = "scary.jpg";
 images[7] = "storm.jpg";
-images[8] = "";
+images[8] = "Three.png";
 
 var pathmessages = [];
 
@@ -52,80 +52,51 @@ pathmessages[0]="You should think twice before going that way";
 pathmessages[1]="That way can lead you to a bad end";
 pathmessages[2]="wait the other way look more atractive";
 pathmessages[3]="You could be knoking to a private place";
-pathmessages[4]="A floting can destroy you!";
-pathmessages[5]="stop! don't go if you are hungry";
+pathmessages[4]="";
+pathmessages[5]="stop! don't go if you are hungry, is some food for your way here ";
 pathmessages[6]="Darkness is comming pick another way";
 pathmessages[7]="if you are afraid of storms this is not a good way to go";
-pathmessages[8]="";
-
-var helpMessages=[];
-
-helpMessages[0]= "";
-helpMessages[1]= "";
-helpMessages[2]= "";
-helpMessages[3]= "You will see small with money. it can be usuful";
-helpMessages[4]= "Here is a knife. It will keep you safe from the bad guys";
-helpMessages[5]= "Take the food!. There is still a long way in front of you. Food might be necessary";
-helpMessages[6]= "";
-helpMessages[7]= "";
-helpMessages[8]= "";
+pathmessages[8]="That tree is about to fall";
 
 var items = ["money","knifes","food"];
-var itemLocations = [3,4,5];
+var itemLocations = [1,6,8];
+var bag =[];        
+        
+        
+var helpMessages=[];
 
-var bag =[];
+    helpMessages[0]= "";
+    helpMessages[1]= "";
+    helpMessages[2]= "";
+    helpMessages[3]= "You will see small with money. it can be usuful";
+    helpMessages[4]= "Here is a knife. It will keep you safe from the bad guys";
+    helpMessages[5]= "Take the food!. You have still a long way in front of you. Food might be necessary";
+    helpMessages[6]= "";
+    helpMessages[7]= "";
+    helpMessages[8]= "";
+
 
 var playersInput ="";
 
 var gameMessage = "";
 
 
-var directionsCreate = ["north","east", "south", "west", 
-     "take", "use"];
+var directionsToGo = ["north","east", "south", "west", 
+     "take", "use","drop"];
 var directions = "";
 
-        var itemsIn = ["money","knive","food"];
-        var item = "";
+var itemsIn = ["money","knive","food"];
+var item = "";
 
 var image=document.querySelector("img");
-        
-        function render(){
-            output.innerHTML=map[mapLocation];
-            image.src="../images/"+images[mapLocation];
-        
-            for(var i= 0; i<items.length;i++){
-            
-            if(mapLocation===itemLocations[i]){
-                output.innerHTML+="<br> There you see <strong>"+item[i]+"<strong>here."
-            }
-        }    
-            output.innerHTML+="<br><em>"+gameMessage+"<em>";
-            
-            if(bag.length !==0){
-                output.innerHTML+="<br> You decide to take"+bag.join(",");
-            }
-        }
-
-        var output = document.querySelector("#output");
-
-    output.innerHTML= map[mapLocation];
-        var input= document.querySelector("#input");
-        var longStringoftext="this string contains the word norht";
-
-    longStringoftext.indexOf("north");
-        
-        if(longStringoftext.indexOf("north")!==-1){
-            console.log("word found");
-        }else{
-            console.log("word not found");
-        }
-        
+var output = document.querySelector("#output");
+var input= document.querySelector("#input");    
 
 var button=document.querySelector("button");
 button.style.cursor="poiter";
 button.addEventListener("click",clickHandler,false);
-
-        render();
+        
+    render();    
         
         function clickHandler(){
             playGame();
@@ -137,22 +108,26 @@ button.addEventListener("click",clickHandler,false);
             gameMessage = "";
             action="";
     
-        for(i = 0; i< directionsCreate.length; i++){ 
+           for(i = 0; i< directionsToGo.length; i++){ 
         
-        if(playersInput.indexOf(directionsCreate[i])!== -1){
-           action= directionsCreate[i];
-            console.log("player's action:"+action);
+        if(playersInput.indexOf(directionsToGo[i]) !== -1){
+          
+            action= directionsToGo[i];
+            console.log("player's action:" + action);
             break;
         }
-    }
-            for(i=0; i<itemsIn.length; i++){
-                if(playersInput.indexOf(itemsIn[i]) !== -1){
-                    item=itemsIn[i];
-                    console.log("playe's item:"+item);
-                }
-            }
-    switch(action){
-         case"north":
+    }  
+         for(i = 0; i< directionsToGo.length; i++){ 
+        
+        if(playersInput.indexOf(directionsToGo[i]) !== -1){
+           action= directionsToGo[i];
+            console.log("player's action: " + action);
+        
+        }
+    }    
+         switch(action){
+            
+             case"north":
            if (mapLocation >=3) {
             mapLocation -= 3;
                 
@@ -188,61 +163,144 @@ button.addEventListener("click",clickHandler,false);
         case "take":
             takeItem()
             break;
+             case "drop":
+                 dropItem();
+                 break;
         case "use":
             useItem();
             break;
         default:
             gameMessage="I don't understand that,";
             
-          }
-        }
+          }    
             render();
             
-      function takeItem(){
+        }
+         function takeItem(){
             var itemIndexNumber = items.indexOf(item);
             
             if (itemIndexNumber !== -1 && itemLocations[itemIndexNumber]=== mapLocation){
-                gameMessage= "Take the"+item+".";
+                gameMessage= "Take the" + item + ".";
                 bag.push(item);
                 items.splice(itemIndexNumber, 1);
                 itemLocations.splice(itemIndexNumber,1);
+                console.log("worl items:" + items);
+                console.log("bag items:" + bag);
             }else{
                 gameMessage=" You can not do that.";
             }
         }
-        function useItem(){
+            
+        
+        
+        
+        function dropItem(){
+            
+            if(bag.length !==0){
+                var bagIndexNumber= bag.indexOf(item);
+            
+            if(bagIndexNumber !== - 1){
+                gameMessage="You drop the"+item+".";
+                
+                items.push(bag[bagIndexNumber]);
+                itemLocations.push(mapLocation);
+                
+                bag.splice(bagIndexNumber, 1);
+                    
+            }else{
+                    gameMessage = "that is not an option";
+                } 
+            }else {
+                    gameMessage = " you do not have items in your bag";
+                }    
+            
+             }
+        
+        
+         function useItem(){
+             
             var bagIndexNumber = bag.indexOf(item);
             
             if(bagIndexNumber===-1){
             gameMessage="You are not carrying it.";
-        } if (bag.length === 0){
+           } 
+             if (bag.length === 0){
             gameMessage+="Your bag is empty";
-        }if(bagIndexNumber !== -1){
+           }
+             if(bagIndexNumber !== -1){
             
             switch(item){
                 case "money":
                     gameMessage= "Keep it the money safe, thieves wonder around";
                     break;
+               
                 case "knive":
+                   
                     if(mapLocation === 3){
                         gameMessage = "Small weapons are easy to hide and carry";
-                    }else{
+                    }
+                    else{
                         gameMessage=" You are not good at using weapons"
                     }
                     break;
+               
                 case "food":
                     if(mapLocation === 1){
                         gameMessage="You are going to be starving with no food";
                         bag.splice(bagIndexNumber, 1);
-                    }else{
-                        gameMessage=" "
+                    }
+                    else{
+                        gameMessage=" you have an item in your bag "
                     }
                     break;
             
-            }
+             }
             
+           } 
+             
         }
             
+            
+        
+        function render(){
+            
+            output.innerHTML=map[mapLocation];
+            image.src="./images/"+images[mapLocation];
+        
+            for(var i= 0; i < items.length; i++){
+            
+            if(mapLocation === itemLocations[i]){
+                
+                output.innerHTML+="<br> Here you see <strong>" + items[i] + "</strong> here, take it or leave it.";
+            }
+        }    
+            output.innerHTML += "<br><em>"+gameMessage+"<em>";
+             
+            if(bag.length !==0){
+                output.innerHTML+="<br> You decide to take"+bag.join(",");
+            }
+        }
+
+
+   // output.innerHTML= map[mapLocation];
+    
+        //var longStringoftext="this string contains the word norht";
+
+    //longStringoftext.indexOf("north");
+        
+        //if(longStringoftext.indexOf("north")!==-1){
+           // console.log("word found");
+        //}else{
+           // console.log("word not found");
+       // }
+        
+
+
+
+        
+        
+    
+      
             
                 
             
