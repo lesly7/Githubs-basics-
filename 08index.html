@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Drawing Road Signs</title>
+   
+    <style>
+        canvas{
+            border: 1px solid black;
+            
+        }
+    
+    
+    
+    </style>
+</head>
+    
+    
+    
+<body >
+    
+    <canvas id="canvas" width="600" height="400">
+    
+    
+    </canvas>
+    
+    <script>
+        
+  var canvas = document.getElementById('canvas');
+    
+        var c = canvas.getContext('2d');
+     c.beginPath();
+     c.moveTo(100,100);
+     c.lineTo(100,300);
+     c.lineTo(300,300);
+     c.closePath();   
+        
+    c.lineWidth = 20;
+    c.strokeStyle= '#ff0000';
+    c.stroke();    
+        
+ 
+    </script> 
+    
+    
+    </body>
+</html>
