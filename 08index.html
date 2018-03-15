@@ -26,19 +26,27 @@
     
     <script>
         
-  var canvas = document.getElementById('canvas');
+ var canvas = document.getElementById('canvas');
     
         var c = canvas.getContext('2d');
+        var ctx2= canvas.getContext('2d');
+     
      c.beginPath();
-     c.moveTo(100,100);
-     c.lineTo(100,300);
-     c.lineTo(300,300);
-     c.closePath();   
-        
+     c.lineJoin="round";    
+     c.moveTo(70,300);
+     c.lineTo(500,300);
+     c.lineTo(300,80);
+     c.closePath(); 
+          
+             
     c.lineWidth = 20;
     c.strokeStyle= '#ff0000';
-    c.stroke();    
+    c.stroke();  
         
+    ctx2.beginPath();
+    ctx2.arc(600,200,90,0,Math.PI*2,true);
+    ctx2.fillStyle= '#ff0000';
+    ctx2.fill();
  
     </script> 
     
