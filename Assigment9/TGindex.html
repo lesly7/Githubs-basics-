@@ -1,0 +1,506 @@
+<!Doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Title Game</title>
+	<link rel="stylesheet" href='Css/css.css' />
+   
+</head>
+    
+<body>
+   <section id="intro" class="Visible">
+       <img src="Image/Background2.jpg" alt="intro image" width= 740px heigth= 740px/>
+       <span id="title">The Adventure Game</span>
+       <h3>Instructions:</h3>
+       <p>Use the arrow keys to move the Viking around the board. Stop at the Trees to take bannanas to go. Figth the naughty Gorilas to take more Gold. And remember run as fast as you can from the hungry T-Rex. You will be safe when you get Home! </p>
+       <div>
+           <button id="start">Play</button>
+       </div>
+       
+    </section>
+    
+    <section id="game" class="Invisible">
+        <div id="stage"></div>
+        <p id="output"></p>
+        <audio id="music" class="backsound">
+             <source src="03_-_Trust.ogg" type="audio/ogg">
+            <source src="03_-_Trust.mp3" type="audio/mpeg" />
+        </audio>
+         
+        
+        
+     </section>
+    
+    
+<script>
+
+var sound =document.getElementById("music");
+var SplashScreen = document.getElementById('intro');
+var GameScreen = document.getElementById('game');
+var startbtn = document.querySelector("#start");
+startbtn.addEventListener("click",startGameHandler,false);
+    
+    
+    
+    function startGameHandler(){
+        SplashScreen.className = "Invisible";
+        GameScreen.className = "Visible";
+        sound.className = "backsound";
+        sound.autoplay=true;
+        sound.load();
+        
+    }
+    
+
+   
+    
+
+    
+   
+var stage = document.querySelector("#stage");    
+var output = document.querySelector("#output");
+
+window.addEventListener("keydown", keydownHandler, false);
+    
+    
+var map =
+[[0,2,0,0,0,0,0,3],
+ [0,0,0,1,0,0,0,0],
+ [0,1,0,0,0,0,0,0],
+ [0,0,0,0,0,2,0,0],
+ [0,2,0,1,0,0,0,0],
+ [0,0,0,0,0,0,0,0],
+ [0,0,0,0,0,2,0,0],
+ [0,0,0,0,0,0,0,0],
+];    
+
+var gameObjects =
+[[0,0,0,0,0,0,0,0],
+ [0,0,5,0,0,0,0,0],
+ [0,0,0,0,0,0,0,0],
+ [0,0,0,0,0,0,0,0],
+ [0,0,0,0,0,0,0,0],
+ [0,0,0,0,0,0,0,0],
+ [0,0,0,0,0,0,0,0],
+ [4,0,0,0,0,0,0,0],
+];    
+
+
+var GRASS = 0;
+var TREE = 1;    
+var GORILA = 2;
+var HOME = 3;
+var VIKI = 4;     
+var DINO = 5;
+    
+var SIZE = 64;
+
+var ROWS = map.length;
+var COLUMNS = map[0].length;
+    
+var vikiRow;
+var vikiColumn;
+var dinoRow;
+var dinoColumn;
+    
+    
+for(var row = 0; row < ROWS; row++) 
+{	
+  for(var column = 0; column < COLUMNS; column++) 
+  {
+    if(gameObjects[row][column] === VIKI)
+    { 
+      vikiRow = row;
+      vikiColumn = column;
+    }
+    if(gameObjects[row][column] === DINO)
+    { 
+      dinoRow = row;
+      dinoColumn = column;
+    }
+  }
+}
+
+var UP = 38;
+var DOWN = 40;
+var RIGHT = 39;
+var LEFT = 37;
+
+var food = 15;
+var gold = 10;
+var experience = 0;
+var gameMessage = "Use the arrow keys to find your way home.";
+     
+render();
+    
+function keydownHandler(event)
+{ 
+  switch(event.keyCode)
+  {
+    case UP:
+	    if(vikiRow > 0)
+	    {
+	      //Clear the ship's current cell
+	      gameObjects[vikiRow][vikiColumn] = 0;
+	      
+	      //Subract 1 from the ship's row
+	      vikiRow--;
+	      
+	      //Apply the ship's new updated position to the array
+	      gameObjects[vikiRow][vikiColumn] = VIKI;
+	    }
+	    break;
+	  
+	  case DOWN:
+	    if(vikiRow < ROWS - 1)
+	    {
+	      gameObjects[vikiRow][vikiColumn] = 0;
+	      shipRow++;
+	      gameObjects[vikiRow][vikiColumn] = VIKI;
+	    }
+	    break;
+	    
+	  case LEFT:
+	    if(vikiColumn > 0)
+	    {
+	      gameObjects[vikiRow][vikiColumn] = 0;
+	      vikiColumn--;
+	      gameObjects[vikiRow][vikiColumn] = VIKI;
+	    }
+	    break;  
+	    
+	  case RIGHT:
+	    if(vikiColumn < COLUMNS - 1)
+	    {
+	      gameObjects[vikiRow][vikiColumn] = 0;
+	      vikiColumn++;
+	      gameObjects[vikiRow][vikiColumn] = VIKI;
+	    }
+	    break; 
+  }
+  
+
+  switch(map[vikiRow][vikiColumn])
+  {
+    case GRASS:
+      gameMessage = "You sail the open seas."
+      break;
+    
+    case GORILA:
+      fight();
+      break; 
+    
+    case TREE:
+      trade();
+      break; 
+      
+    case HOME:
+      endGame();
+      break;      
+  }
+  
+  
+  moveDino();
+  
+  
+ 
+  if(gameObjects[vikiRow][vikiColumn] === DINO)
+  {
+    endGame();
+  }
+  
+
+  food--;
+  
+
+  if(food <= 0 || gold <= 0)
+  {
+    endGame();
+  }
+  
+  
+  render();
+}    
+
+function moveDino()
+{
+ 
+  var UP = 1;
+  var DOWN = 2;
+  var LEFT = 3;
+  var RIGHT = 4;
+  
+
+  var validDirections = [];
+  
+
+  var direction = undefined;
+  
+
+  if(dinoRow > 0)
+  {
+    var thingAbove = map[dinoRow - 1][dinoColumn];
+    if(thingAbove === GRASS)
+	  {
+	    validDirections.push(UP);
+	  }
+  }
+  if(dinoRow < ROWS - 1)
+  { 
+    var thingBelow = map[dinoRow + 1][dinoColumn];
+    if(thingBelow === GRASS)
+	  {
+	    validDirections.push(DOWN);
+	  }
+  }
+  if(dinoColumn > 0)
+  {
+    var thingToTheLeft = map[dinoRow][dinoColumn - 1];
+    if(thingToTheLeft === GRASS)
+	  {
+	    validDirections.push(LEFT);
+	  }
+  } 
+  if(dinoColumn < COLUMNS - 1)
+  {
+    var thingToTheRight = map[dinoRow][dinoColumn + 1];
+    if(thingToTheRight === GRASS)
+	  {
+	    validDirections.push(RIGHT);
+	  }
+  } 
+  
+  //The validDirections array now contains 0 to 4 directions that the 
+  //contain WATER cells. Which of those directions will the monster
+  //choose to move in?
+  
+
+  if(validDirections.length !== 0)
+  {
+    var randomNumber = Math.floor(Math.random() * validDirections.length);
+    direction = validDirections[randomNumber];
+  }
+  
+
+  switch(direction)
+  {
+    case UP:
+   
+		  gameObjects[dinoRow][dinoColumn] = 0;
+		  
+		  dinoRow--; 
+		  
+		  gameObjects[dinoRow][dinoColumn] = DINO;
+		  break;
+	  
+	  case DOWN:
+	    gameObjects[dinoRow][dinoColumn] = 0;
+		  dinoRow++;
+		  gameObjects[dinoRow][dinoColumn] = DINO;
+	    break;
+	  
+	  case LEFT:
+	    gameObjects[dinoRow][dinoColumn] = 0;
+		  dinoColumn--;
+		  gameObjects[dinoRow][dinoColumn] = DINO;
+	    break;
+	 
+	 case RIGHT:
+	    gameObjects[dinoRow][dinoColumn] = 0;
+		  dinoColumn++;
+		  gameObjects[dinoRow][dinoColumn] = DINO;
+  }
+}    
+    
+    function trade()
+{
+  //Figure out how much food the island has
+  //and how much it should cost
+  var islandsFood = experience + gold;
+  var cost = Math.ceil(Math.random() * islandsFood);
+  
+  //Let the player buy food if there's enough gold
+  //to afford it
+  if(gold > cost)
+  {
+    food += islandsFood;
+    gold -= cost;
+    experience += 2;
+    
+    gameMessage 
+      = "You buy " + islandsFood + " coconuts"
+      + " for " + cost + " gold pieces."
+  }
+  else
+  {
+    //Tell the player if they don't have enough gold
+    experience += 1;
+    gameMessage = "You don't have enough gold to buy food."
+  }
+}
+    
+    function fight()
+{
+  
+  //The ships strength
+  var vikiStrength = Math.ceil((food + gold) / 2);
+  
+  //A random number between 1 and the ship's strength
+  var gorilaStrength = Math.ceil(Math.random() * vikiStrength * 2);
+  
+  if(gorilaStrength > vikiStrength)
+  {
+    //The pirates ransack the ship
+    var stolenGold = Math.round(gorilaStrength / 2);
+    gold -= stolenGold;
+    
+    //Give the player some experience for trying  
+    experience += 1;
+    
+    //Update the game message
+    gameMessage 
+      = "You fight and LOSE " + stolenGold + " gold pieces."
+      + " Ship's strength: " + vikiStrength 
+      + " Pirate's strength: " + gorilaStrength;
+  }
+  else
+  {
+    //You win the pirates' gold
+    var gorilaGold = Math.round(gorilaStrength / 2);
+    gold += gorilaGold;
+    
+    //Add some experience  
+    experience += 2;
+    
+    //Update the game message
+    gameMessage 
+      = "You fight and WIN " + gorilaGold + " gold pieces."
+      + " Ship's strength: " + vikiStrength 
+      + " Pirate's strength: " + gorilaStrength;
+  } 
+}
+    
+function endGame()
+{
+  if(map[vikiRow][vikiColumn] === HOME)
+  {
+    //Calculate the score
+    var score = food + gold + experience;
+    
+    //Display the game message
+    gameMessage 
+      = "You made it home ALIVE! " + "Final Score: " + score; 
+  }
+  else if(gameObjects[vikiRow][vikiColumn] === DINO)
+  {
+    gameMessage 
+      = "You have been eaten by a T-Rex!";
+  }
+  else
+  {
+    //Display the game message
+    if(gold <= 0)
+    {
+      gameMessage += " You've run out of gold!"; 
+    }
+    else
+    {
+      gameMessage += " You've run out of food!"; 
+    }
+    
+    gameMessage 
+      += " There was not place to hide from the Skating Gorila!"; 
+  }
+  
+  //Remove the keyboard listener to end the game
+  window.removeEventListener("keydown", keydownHandler, false);
+} 
+ 
+
+ 
+    
+function render()
+{
+
+  if(stage.hasChildNodes())
+  {
+    for(var i = 0; i < ROWS * COLUMNS; i++) 
+    {	 
+      stage.removeChild(stage.firstChild);
+    }
+  }
+  
+  //Render the game by looping through the map arrays
+  for(var row = 0; row < ROWS; row++) 
+  {	
+    for(var column = 0; column < COLUMNS; column++) 
+    { 
+      //Create a img tag called cell
+      var cell = document.createElement("img");
+
+      //Set it's CSS class to "cell"
+      cell.setAttribute("class", "cell");
+
+      //Add the img tag to the <div id="stage"> tag
+      stage.appendChild(cell);
+
+      //Find the correct image for this map cell
+      switch(map[row][column])
+      {
+        case GRASS:
+          cell.src="./Image/grass1.png";
+          break;
+
+        case TREE:
+          cell.src = "./Image/palm-tree-icon.png";
+          break; 
+
+        case GORILA:
+          cell.src = "./Image/gorilla-icon.png";
+          break; 
+
+        case HOME:
+          cell.src = "./Image/home-4-icon.png";
+          break;   
+      }  
+      
+      //Add the ship and monster from the gameObjects array
+	    switch(gameObjects[row][column])
+	    {
+	      case VIKI:
+	        cell.src = "./Image/viking.png";
+	        break;   
+	        
+	      case DINO:
+	        cell.src = "./Image/dino.ico";
+	        break;  
+	    } 
+  
+      //Position the cell 
+      cell.style.top = row * SIZE + "px";
+      cell.style.left = column * SIZE + "px";
+    }
+  }
+  
+  //Display the game message
+	output.innerHTML = gameMessage;
+	
+	//Display the player's food, gold, and experience
+	output.innerHTML 
+	  += "<br>Gold: " + gold + ", Food: " 
+	  + food + ", Experience: " + experience;
+}
+    
+</script>    
+    
+</body> 
+
+
+
+
+
+
+
+
+
+</html>
